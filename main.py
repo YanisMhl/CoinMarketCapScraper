@@ -3,8 +3,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By 
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 import time
 import re
@@ -18,21 +16,22 @@ web = "https://coinmarketcap.com/"
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chromeOptions)
 driver.get(web)
 
+#Waiting for the website to load
+time.sleep(0.5)
 
-#Récupérer le titre, la table et les catégories du site
+#Retrieve the title, table and categories of the website
 title = driver.find_element(By.XPATH, "//h1").text
 print(title)
 table = driver.find_element(By.XPATH, "//table")
 categories = driver.find_elements(By.XPATH, "//tr")[0].text.split("\n")[1:-1]
 
-#Générer un dictionnaire contenant toutes les catégories qu'on a récupérer du site
+#Generate a dictionary containing all the categories we have retrieved from the website
 cryptoTable = {}
 for category in categories:
     cryptoTable[category] = []
 print(cryptoTable)
 
 
-time.sleep(0.5)
 
 #Pagination
 pagination = driver.find_elements(By.XPATH, "//ul[contains(@class, 'pagination')]")[1]
@@ -41,7 +40,7 @@ nextPageButton = pagination.find_element(By.XPATH, ".//a[contains(@aria-label, '
 pageNumber = 10
 current_page = 1
 
-#Le site était asynchrone, il est bon de découper la page en 15 étapes qu'on scroll tour à tours
+#The site being asynchronous, it is good to cut the page into 15 steps that we scroll turn by turn
 page_height = driver.execute_script("return document.body.scrollHeight")
 page_step = page_height // 15
 page_steps = []
@@ -54,7 +53,7 @@ while current_page <= pageNumber:
         
     current_step = 0
 
-    #boucle de scroll
+    #scroll loop
     for step in page_steps:
         time.sleep(0.5)
         driver.execute_script(f"window.scrollTo({current_step}, {step})")

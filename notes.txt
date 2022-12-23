@@ -1,0 +1,4 @@
+problèmes : Après 15 itérations dans les lignes de coinmarketcap, il est impossible de sauvegarder un csv.
+Toutes les valeurs ne sont pas sauvegardés dans le dictionnaire pour une raison inconnue.
+Seulement les noms sont tous enregistrés, mais il manque quelques valeurs pour le reste.
+Ce problème arrive à partir du Shiba Inu (ce dernier est enregistré mais pas le reste).
